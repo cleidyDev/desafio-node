@@ -2,9 +2,14 @@ const fastfy = require('fastify')
 
 const server = fastfy()
 
+const courses = {
+    id:1
+    ,name:'NodeJS'
+    ,duration:'3 months'
+}
 
 server.get('/',()=>{
-    return {hello: 'world'}
+    return {curso:courses}
 })
 
 server.listen({port:8000}).then(()=>{
