@@ -9,10 +9,17 @@ const courses = [{
     duration:'3 months'
 }]
 
-server.get('/',()=>{
+server.get('/courses',()=>{
     return {curso:courses}
 })
-
+server.get('/courses/:id',(request,reply)=>{
+     const coursesId = request.params.id
+     const course = courses.find(course => course.id === coursesId)
+     if(!course){
+        return reply.status(404).send()
+     }
+     return {course}
+}) 
 server.post('/courses',()=>{
     courses.push({id:crypto.randomUUID(),name:"Curso de Nest",durantion:"4 dias"})
     return {message:"Curso criado com sucesso"}
