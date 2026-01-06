@@ -20,8 +20,16 @@ server.get('/courses/:id',(request,reply)=>{
      }
      return {course}
 }) 
-server.post('/courses',()=>{
-    courses.push({id:crypto.randomUUID(),name:"Curso de Nest",durantion:"4 dias"})
+server.post('/courses',(request,reply)=>{
+    const coursesId = crypto.randomUUID()
+    const coursesName = request.body.name
+    const coursesDuration = request.body.durantion
+    if(!coursesName && !coursesDuration){
+        return reply.status(400).send({
+            message:"Nome e duracao sao obrigatorios"
+        })
+    }
+    courses.push({id:coursesId,name:"Curso de Nest",durantion:"4 dias"})
     return {message:"Curso criado com sucesso"}
 }) 
 
