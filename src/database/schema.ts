@@ -9,3 +9,9 @@ export const users = mysqlTable('users', {
     name: text('name').notNull(),
     email: varchar('email', { length: 255 }).notNull().unique(),
 });
+
+export const courses =mysqlTable('courses',{
+    id:varchar('id',{length:36}).primaryKey().default(sql`(UUID())`),
+    title:varchar('title',{length:255}).notNull().unique(),
+    description:text('description',).notNull(),
+})
