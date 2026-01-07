@@ -11,3 +11,4 @@ export default defineConfig({
        out:'.drizzle',
        schema:'./src/database/schema.ts',
 })
+
