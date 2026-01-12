@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.ts --watch --env-file .env",
-    "db:generate":"drizzle-kit generate",
-    "db:migrate":"drizzle-kit migrate",
-    "db:studio":"drizzle-kit studio"
+    "dev": "node --env-file .env server.ts --watch",
+    "generate":"drizzle-kit generate",
+    "migrate":"drizzle-kit migrate",
+    "studio":"drizzle-kit studio"
   },
   "keywords": [],
   "author": "",

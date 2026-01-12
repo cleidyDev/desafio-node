@@ -14,10 +14,9 @@ const server = fastify({
     },
 });
 
-
 server.get('/courses',async (request,reply)=>{
     const result = await db.select().from(courses)
-    return reply.send({curso:courses})
+    return reply.send({curso:result})
 })
 // server.get('/courses/:id',(request,reply)=>{
 //      const coursesId = request.params.id
