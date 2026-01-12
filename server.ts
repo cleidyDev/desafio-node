@@ -1,6 +1,8 @@
 import fastify from 'fastify'
-import { courses } from './src/database/schema.ts';
+import { eq } from 'drizzle-orm'
+import { courses} from './src/database/schema.ts';
 import { db } from './src/database/client.ts';
+
 
 const server = fastify({
     logger:{
@@ -16,29 +18,32 @@ const server = fastify({
 
 server.get('/courses',async (request,reply)=>{
     const result = await db.select().from(courses)
-    return reply.send({curso:result})
+    result
+    return reply.send({cursos:result})
 })
-// server.get('/courses/:id',(request,reply)=>{
-//      const coursesId = request.params.id
-//      const course = courses.find(course => course.id === coursesId)
-//      if(!course){
-//         return reply.status(404).send()
-//      }
-//      return reply.send({course})
-// }) 
-// server.post('/courses',(request,reply)=>{
-//     const coursesId = crypto.randomUUID()
-//     const coursesName = request.body.name
-//     const coursesDuration = request.body.duration
-//     if(!coursesName || !coursesDuration){
-//         return reply.status(400).send({
-//             message:"Nome e duracao sao obrigatorios"
-//         })
-//     } 
-//     courses.push({id:coursesId,name:coursesName,duration:coursesDuration})
-//     return reply.send({message:"Curso criado com sucesso"})
-// }) 
 
+server.get('/course/:id', async (request,reply) => {
+    type Params = {
+        id:string,
+        title:string,
+        description:string
+    }
+
+    const params = request.params as Params
+    const courseId = params.id
+
+    const result = await db.select()
+        .from(courses)
+        .where(eq(courses.id,courseId))
+
+    if(result.length > 0){
+        return {course:result[0]}
+    }
+
+    return reply.status(404).send({
+        'message':"Curso nao encontrado"
+    })
+})
 server.listen({port:8000}).then(()=>{
     console.log('Server is running on http://localhost:8000')
 })
