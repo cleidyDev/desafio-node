@@ -1,5 +1,6 @@
 # Desafio Node.js - API de Cursos
-
+aula 2->1:14min
+instalar o zod
 Uma API REST simples para gerenciamento de cursos, construída com Node.js, TypeScript e Fastify.
 
 ## 📋 Sobre o Projeto
