@@ -83,9 +83,12 @@ server.delete('course/delete/:id', async (request,reply)=>{
     const paramms = request.params as Params
     const courseId = paramms.id
 
-    const result = await db.delete(courses).where({
-        id:courses.id
+    const result = await db.delete(courses).where(courseId)
+
+    return reply.status(201).send({
+        'message':result
     })
+
 })
 server.listen({port:8000}).then(()=>{
     console.log('Server is running on http://localhost:8000')
