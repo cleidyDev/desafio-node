@@ -90,6 +90,31 @@ server.delete('/course/delete/:id', async (request,reply)=>{
     })
 
 })
+
+server.put('/course/update/:id',async (request,reply)=>{
+    type Params = {
+        id:string
+    }
+    type Body = {
+        title:string,
+        description:string
+    }
+
+    const params = request.params as Params
+    const courseId = params.id
+
+    const body = request.body as Body
+    const courseTitle = body.title
+    const courseDescription  = body.description
+
+    const result = await db.update(courses).set({
+        title:courseTitle,
+        description:courseDescription
+    }).where(eq(courses.id,courseId))
+    return reply.status(201).send({
+        'message':"Curso actualizado com sucesso"
+    })
+})
 server.listen({port:8000}).then(()=>{
     console.log('Server is running on http://localhost:8000')
 })
