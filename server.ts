@@ -27,15 +27,15 @@ server.get('/course',async (request,reply)=>{
     return reply.send({cursos:result})
 })
 
-server.get('/course/:id', async (request,reply) => {
-    type Params = {
-        id:string,
-        title:string,
-        description:string
+server.get('/course/:id',{
+    schema:{
+        params:z.object({
+            id:z.uuid(),
+        })
     }
+}, async (request,reply) => {
 
-    const params = request.params as Params
-    const courseId = params.id
+    const courseId = request.params.id
 
     const result = await db.select()
         .from(courses)
@@ -57,12 +57,12 @@ server.post('/course/create',{
             description:z.string().min(20,"a descricao precisa de ter mais de 20 caracteres")
         })
     }
-}, async (request,reply)=>{
+}, async (request,reply)=>{ 
     
 
     const courseTitle = request.body.title
     const courseDescription = request.body.description
-
+ 
     const result = await db
     .insert(courses)
     .values({
