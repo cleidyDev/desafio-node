@@ -67,13 +67,13 @@ server.post('/course/create', async (request,reply)=>{
     .values({
         title:courseTitle,
         description:courseDescription
-    }).$returningId()
+    })
     return reply.status(201).send({
         'message':result
     })
 })
 
-server.delete('course/delete/:id', async (request,reply)=>{
+server.delete('/course/delete/:id', async (request,reply)=>{
     type Params = {
         id:string,
         title:string,
@@ -83,10 +83,10 @@ server.delete('course/delete/:id', async (request,reply)=>{
     const paramms = request.params as Params
     const courseId = paramms.id
 
-    const result = await db.delete(courses).where(courseId)
+    const result = await db.delete(courses).where(eq(courses.id,courseId));
 
     return reply.status(201).send({
-        'message':result
+        'message':"Curso deletado com sucesso"
     })
 
 })
