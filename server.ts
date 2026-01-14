@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import {validatorCompiler,serializerCompiler,type ZodTypeProvider} from 'fastify-type-provider-zod'
+import {validatorCompiler,serializerCompiler,type ZodTypeProvider, jsonSchemaTransform} from 'fastify-type-provider-zod'
 import { fastifySwagger} from '@fastify/swagger'
 import { eq } from 'drizzle-orm'
 import { courses} from './src/database/schema.ts';
@@ -18,6 +18,16 @@ const server = fastify({
         },
     },
 }).withTypeProvider<ZodTypeProvider>();
+
+server.register(fastifySwagger,{
+    openapi:{
+        info:{
+            title:"Desafio Nodejs",
+            version:"1.0.0",
+        }
+    },
+    transform: jsonSchemaTransform,
+})
 
 server.setSerializerCompiler(serializerCompiler)
 server.setValidatorCompiler(validatorCompiler)
