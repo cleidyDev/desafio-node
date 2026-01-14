@@ -1,9 +1,10 @@
 import fastify from 'fastify'
 import {validatorCompiler,serializerCompiler,type ZodTypeProvider} from 'fastify-type-provider-zod'
+import { fastifySwagger} from '@fastify/swagger'
 import { eq } from 'drizzle-orm'
 import { courses} from './src/database/schema.ts';
 import { db } from './src/database/client.ts';
-import {z} from 'zod'
+import { z } from 'zod'
 
 
 const server = fastify({
@@ -23,7 +24,6 @@ server.setValidatorCompiler(validatorCompiler)
 
 server.get('/course',async (request,reply)=>{
     const result = await db.select().from(courses)
-    result
     return reply.send({cursos:result})
 })
 
