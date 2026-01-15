@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm'
 import { courses} from './src/database/schema.ts';
 import { db } from './src/database/client.ts';
 import { z } from 'zod'
+import fastifySwaggerUi from '@fastify/swagger-ui';
 
 
 const server = fastify({
@@ -27,6 +28,9 @@ server.register(fastifySwagger,{
         }
     },
     transform: jsonSchemaTransform,
+})
+server.register(fastifySwaggerUi,{
+    routePrefix:'/docs'
 })
 
 server.setSerializerCompiler(serializerCompiler)
@@ -84,7 +88,15 @@ server.post('/course/create',{
     })
 })
 
-server.delete('/course/delete/:id', async (request,reply)=>{
+server.delete('/course/delete/:id',{
+    schema:{
+        params:z.object({
+            id:z.uuid(),
+            title:z.string(),
+            description:z.string()
+        })
+    }
+} async (request,reply)=>{
     type Params = {
         id:string,
         title:string,
@@ -126,6 +138,7 @@ server.put('/course/update/:id',async (request,reply)=>{
         'message':"Curso actualizado com sucesso"
     })
 })
+
 server.listen({port:8000}).then(()=>{
     console.log('Server is running on http://localhost:8000')
 })
