@@ -2,11 +2,11 @@ import fastify from 'fastify';
 import { validatorCompiler, serializerCompiler, type ZodTypeProvider, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { fastifySwagger } from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import { createCourseRoute } from './routes/createCourse.ts';
-import { getCourseRoute } from './routes/getCourse.ts';
-import { getCourseByIdRoute } from './routes/getCourseById.ts';
-import { updateCourseRoute } from './routes/updateCourse.ts';
-import { deleteCourseRoute } from './routes/deleteCourse.ts';
+import { createCourseRoute } from './src/routes/createCourse.ts';
+import { getCourseRoute } from './src/routes/getCourse.ts';
+import { getCourseByIdRoute } from './src/routes/getCourseById.ts';
+import { updateCourseRoute } from './src/routes/updateCourse.ts';
+import { deleteCourseRoute } from './src/routes/deleteCourse.ts';
 
 
 const server = fastify({
@@ -21,7 +21,8 @@ const server = fastify({
     },
 }).withTypeProvider<ZodTypeProvider>();
 
-server.register(fastifySwagger,{
+if(process.env.NODE_ENV === "development"){
+    server.register(fastifySwagger,{
     openapi:{
         info:{
             title:"Desafio Nodejs",
@@ -33,6 +34,7 @@ server.register(fastifySwagger,{
 server.register(fastifySwaggerUi,{
     routePrefix:'/docs'
 })
+}
 
 server.setSerializerCompiler(serializerCompiler)
 server.setValidatorCompiler(validatorCompiler)
