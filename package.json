@@ -17,6 +17,7 @@
   "dependencies": {
     "@fastify/swagger": "^9.6.1",
     "@fastify/swagger-ui": "^5.2.4",
+    "@scalar/fastify-api-reference": "^1.43.5",
     "drizzle-orm": "^0.45.1",
     "fastify": "^5.6.2",
     "fastify-type-provider-zod": "^6.1.0",
